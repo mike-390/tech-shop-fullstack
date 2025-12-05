@@ -1,58 +1,156 @@
-import { ArrowRight, CheckCircle, Zap, Shield, Globe, Cpu, Smartphone, Truck, Users, Package } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
+import { GridScan } from '../components/GridScan'; 
+import { 
+  ArrowRight, 
+  CheckCircle, 
+  Cpu, 
+  Globe, 
+  Package, 
+  Shield, 
+  Smartphone, 
+  Truck, 
+  LayoutDashboard, 
+  PackageSearch,
+  ScanLine 
+} from 'lucide-react';
+import { toast } from 'react-hot-toast';
 
 export default function Home() {
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleSmartButtonClick = () => {
+    if (!user) {
+      toast.error("Please login to track your orders");
+      navigate('/login');
+    } else if (user.role === 'ADMIN') {
+      navigate('/admin/orders');
+    } else {
+      navigate('/my-orders');
+    }
+  };
+
   return (
-    <div className="bg-slate-50 selection:bg-indigo-100 selection:text-indigo-900">
+    <div className="bg-white selection:bg-indigo-500 selection:text-white overflow-x-hidden font-sans">
       
-      {/* HERO SECTION: Clean, Premium, No Clutter */}
-      <section className="relative pt-24 pb-24 lg:pt-36 lg:pb-48 overflow-hidden bg-white rounded-b-[4rem] shadow-sm z-20">
-        {/* Subtle background elements */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full opacity-40 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-100 via-transparent to-transparent -z-10"></div>
+      {/* CSS: ANIMATIONS & BACKGROUNDS */}
+      <style>{`
+        /* Το Aurora Effect */
+        @keyframes aurora {
+          0% { background-position: 50% 50%, 50% 50%; }
+          50% { background-position: 100% 0%, 0% 100%; }
+          100% { background-position: 50% 50%, 50% 50%; }
+        }
+        .bg-aurora {
+          background-image: 
+            radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.10) 0px, transparent 50%),
+            radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.10) 0px, transparent 50%);
+          animation: aurora 10s ease infinite;
+          background-size: 140% 140%;
+        }
+
+        /* Floating Animations */
+        @keyframes float-1 { 0%, 100% { transform: translateY(0px) rotate(-6deg); } 50% { transform: translateY(-12px) rotate(-6deg); } }
+        @keyframes float-van { 0%, 100% { transform: translateY(0px) rotate(-2deg); } 50% { transform: translateY(-15px) rotate(-2deg); } }
+        
+        .animate-float-gaming { animation: float-1 6s ease-in-out infinite; }
+        .animate-float-van { animation: float-van 5s ease-in-out infinite; }
+      `}</style>
+
+      {/* HERO SECTION */}
+      <section className="relative pt-20 pb-32 lg:pt-32 lg:pb-48 overflow-hidden">
+        
+        {/* BACKGROUND */}
+        <div className="absolute inset-0 bg-aurora -z-20"></div>
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay -z-20"></div>
 
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
           
-          {/* Left Content */}
-          <div className="relative z-10">
-            <h1 className="text-6xl md:text-8xl font-black text-slate-900 tracking-tighter leading-[0.95] mb-8">
+          {/* LEFT CONTENT */}
+          <div className="relative z-20 max-w-2xl">
+            <h1 className="text-6xl md:text-8xl font-black text-slate-900 tracking-tighter leading-[0.9] mb-8">
               FUTURE <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-blue-500">
                 READY.
               </span>
             </h1>
             
-            <p className="text-xl text-slate-600 max-w-lg mb-12 font-medium leading-relaxed">
+            <p className="text-xl text-slate-600 max-w-lg mb-10 font-medium leading-relaxed">
               Experience technology without boundaries. 
-              The most advanced gadgets, delivered instantly to your door.
+              Top-tier gadgets across all categories, delivered instantly.
             </p>
 
             <div className="flex flex-wrap gap-4">
               <Link to="/products" className="px-10 py-4 bg-slate-900 text-white rounded-full font-bold hover:bg-indigo-600 transition-all shadow-xl shadow-slate-200/50 hover:shadow-indigo-200 hover:-translate-y-1 flex items-center gap-2 group">
                 Shop Now <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Link>
-              <Link to="/about" className="px-10 py-4 bg-white text-slate-900 border-2 border-slate-100 rounded-full font-bold hover:border-slate-300 transition-all">
-                Learn More
-              </Link>
+              
+              <button 
+                onClick={handleSmartButtonClick}
+                className="px-10 py-4 bg-white text-slate-900 border-2 border-slate-100 rounded-full font-bold hover:border-indigo-200 hover:bg-indigo-50/50 transition-all flex items-center gap-2"
+              >
+                {!user ? (
+                   <>Track Order <PackageSearch className="h-5 w-5 text-slate-400" /></>
+                ) : user.role === 'ADMIN' ? (
+                   <>Dashboard <LayoutDashboard className="h-5 w-5 text-indigo-600" /></>
+                ) : (
+                   <>My Orders <PackageSearch className="h-5 w-5 text-indigo-600" /></>
+                )}
+              </button>
             </div>
           </div>
 
-          {/* Right Visual: Clean Image, No badges */}
-          <div className="relative z-0 hidden lg:block perspective-1000">
-             <div className="relative transform rotate-y-3 hover:rotate-0 transition-all duration-1000 ease-out preserve-3d group">
-                {/* Glow Effect */}
-                <div className="absolute inset-0 bg-indigo-500 blur-[80px] opacity-15 rounded-[3rem] group-hover:opacity-25 transition-opacity"></div>
-                
-                {/* Main Image: Clean, Bright, Futuristic */}
-                <img 
-                  src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2070&auto=format&fit=crop" 
-                  alt="Future Tech Setup" 
-                  className="relative rounded-[3rem] shadow-[0_20px_50px_rgba(8,_112,_184,_0.2)] border-4 border-white object-cover w-full h-[650px] z-10"
+          {/* 👇 RIGHT VISUAL: GRID SCAN & VAN */}
+          <div className="relative h-[700px] w-full hidden lg:block overflow-hidden rounded-[3rem] border border-slate-100 shadow-2xl shadow-indigo-200/50 group">
+             
+             {/* BACKGROUND*/}
+             <div className="absolute inset-0 bg-slate-950">
+                <GridScan 
+                    lineThickness={1.5}
+                    linesColor="#4f46e5"      // Indigo-600 lines
+                    scanColor="#3b82f6"       // Sky-400 scan beam
+                    scanOpacity={0.6}
+                    gridScale={0.12}
+                    scanOnClick={true}        // scan effect
+                    scanDuration={2.5}
+                    bloomIntensity={1.0}      
                 />
              </div>
+
+             {/* TOP LABEL: SYSTEM STATUS */}
+             <div className="absolute top-8 left-0 right-0 flex justify-center z-10">
+                <div className="bg-white/10 backdrop-blur-md border border-white/20 px-6 py-2 rounded-full flex items-center gap-3">
+                    <div className="relative flex h-3 w-3">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                    </div>
+                    <span className="text-white font-mono text-sm tracking-widest font-bold flex items-center gap-2">
+                        <ScanLine className="w-4 h-4 text-indigo-300" />
+                        GLOBAL LOGISTICS NETWORK
+                    </span>
+                </div>
+             </div>
+             
+             {/* 3. THE VAN CONTAINER */}
+             <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
+                 <div className="relative animate-float-van">
+                     <img 
+                         src="../../public/—Pngtree—white delivery van icon haulage_14171922.png" 
+                         alt="Delivery Van" 
+                         className="w-[500px] h-auto drop-shadow-2xl transform -rotate-2"
+                     />
+                     <div className="absolute -bottom-10 left-10 right-10 h-12 bg-black/60 blur-2xl rounded-[100%]"></div>
+                 </div>
+             </div>
+
+             {/* 4. OVERLAY GRADIENT */}
+             <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-slate-950 to-transparent pointer-events-none"></div>
+
           </div>
         </div>
-      </section>
-
+    </section>
 
       {/* 2. DIGITAL STORE SECTION */}
       <section className="py-24 relative z-10 -mt-12">
@@ -98,8 +196,7 @@ export default function Home() {
         </div>
       </section>
 
-
-      {/* 3. FEATURES SECTION: Perfected Bento Grid */}
+      {/* FEATURES SECTION */}
       <section className="max-w-7xl mx-auto px-6 pt-20 pb-32">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
           <div>
@@ -111,39 +208,28 @@ export default function Home() {
           </Link>
         </div>
         
-        {/* BENTO GRID - Clean, Premium, Cohesive */}
+        {/* BENTO GRID */}
         <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-8 h-auto md:h-[700px]">
           
-          {/* Card 1: Logistics (Large Horizontal) - Clean White with Soft Shadow */}
-          <div className="md:col-span-2 md:row-span-2 bg-white rounded-[2.5rem] p-12 relative overflow-hidden group shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:shadow-[0_8px_40px_rgb(0,0,0,0.12)] transition-all duration-500 z-10">
-            <div className="absolute top-0 right-0 w-full h-full bg-[url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-0 group-hover:opacity-100 transition-opacity duration-700 mix-blend-overlay"></div>
-            
+          {/* Card 1: Logistics */}
+          <div className="md:col-span-2 md:row-span-2 bg-slate-50 rounded-[1.5rem] p-10 relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-full h-full bg-[url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-70 group-hover:opacity-100 transition-all duration-700"></div>
             <div className="relative z-10 h-full flex flex-col justify-between">
+               <Truck className="h-8 w-8 text-black mb-4" />
                <div>
-                  <div className="w-20 h-20 bg-indigo-50 rounded-3xl flex items-center justify-center mb-8 text-indigo-600 group-hover:scale-110 transition-transform duration-500">
-                    <Truck className="h-10 w-10" />
-                  </div>
-                  <h3 className="text-4xl font-bold text-slate-900 mb-4">Lightning Logistics</h3>
-                  <p className="text-slate-500 text-xl max-w-md leading-relaxed">
-                    Optimized delivery routes ensure your gear arrives before you even miss it.
+                  <h3 className="text-3xl font-bold text-slate-900 mb-2">Global Logistics</h3>
+                  <p className="text-slate-900 font-bold text-lg leading-relaxed">
+                    Precision delivery tracking from our cloud warehouse to your doorstep.
                   </p>
-               </div>
-               
-               <div className="flex items-center gap-4 mt-8">
-                  <div className="h-2 flex-1 bg-slate-100 rounded-full overflow-hidden">
-                    <div className="h-full w-4/5 bg-indigo-600 rounded-full"></div>
-                  </div>
-                  <span className="text-lg font-bold text-indigo-600">Avg. 24h</span>
                </div>
             </div>
           </div>
 
-          {/* Card 2: Warranty (Top Right) - Deep Indigo Premium */}
+          {/* Card 2: Warranty */}
           <div className="md:col-span-2 bg-indigo-900 rounded-[2.5rem] p-12 text-white relative overflow-hidden group hover:-translate-y-1 transition-transform duration-500 shadow-xl z-10">
              <div className="absolute -top-12 -right-12 p-8 opacity-10 group-hover:rotate-12 transition-transform duration-700">
                 <Shield className="h-56 w-56" />
              </div>
-             
              <div className="relative z-10 h-full flex flex-col justify-center">
                 <Shield className="h-14 w-14 text-indigo-300 mb-6" />
                 <h3 className="text-3xl font-bold mb-3">Ironclad Warranty</h3>
@@ -153,23 +239,25 @@ export default function Home() {
              </div>
           </div>
 
-          {/* Card 3: Mobile (Bottom Middle) - Vibrant Gradient */}
-          <div className="bg-gradient-to-tr from-blue-600 to-indigo-600 rounded-[2.5rem] p-10 text-white flex flex-col justify-between group shadow-lg hover:shadow-indigo-300/50 transition-all duration-300 z-10">
-             <Smartphone className="h-12 w-12 text-white/90 group-hover:scale-110 transition-transform" />
-             <div>
+          {/* Card 3: Mobile */}
+          <div className="bg-slate-800 rounded-[2.5rem] p-10 text-white flex flex-col justify-between group shadow-lg hover:shadow-indigo-300/50 transition-all duration-300 z-10 relative overflow-hidden">
+             <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-40 group-hover:scale-110 transition-transform duration-700"></div>
+             <div className="relative z-10">
+                <Smartphone className="h-12 w-12 text-white mb-4" />
                 <h3 className="text-2xl font-bold mb-2">Mobile First</h3>
-                <p className="text-indigo-100 font-medium">Shop from your pocket.</p>
+                <p className="text-slate-300 font-medium">Shop from your pocket.</p>
              </div>
           </div>
 
-          {/* Card 4: Support (Bottom Right) - Clean White & Avatars */}
-          <div className="bg-white rounded-[2.5rem] p-10 flex flex-col justify-between shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:shadow-[0_8px_40px_rgb(0,0,0,0.12)] transition-all duration-300 z-10">
-             <div className="flex -space-x-4">
+          {/* Card 4: Support */}
+          <div className="bg-white rounded-[2.5rem] p-10 flex flex-col justify-between shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:shadow-[0_8px_40px_rgb(0,0,0,0.12)] transition-all duration-300 z-10 relative overflow-hidden">
+             <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=1748&auto=format&fit=crop')] bg-cover bg-center opacity-10 grayscale"></div>
+             <div className="flex -space-x-4 relative z-10">
                 <div className="w-12 h-12 rounded-full border-4 border-white bg-slate-200 shadow-sm flex items-center justify-center text-sm font-bold text-slate-600">JD</div>
                 <div className="w-12 h-12 rounded-full border-4 border-white bg-slate-300 shadow-sm flex items-center justify-center text-sm font-bold text-slate-600">AL</div>
                 <div className="w-12 h-12 rounded-full border-4 border-white bg-indigo-500 shadow-sm flex items-center justify-center text-sm font-bold text-white">+5</div>
              </div>
-             <div>
+             <div className="relative z-10">
                 <h3 className="text-2xl font-bold text-slate-900 mb-1">24/7 Support</h3>
                 <p className="text-slate-500 font-medium flex items-center gap-2">
                   <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> Real humans online.

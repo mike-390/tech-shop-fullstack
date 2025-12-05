@@ -34,7 +34,7 @@ export default function About() {
   return (
     <div className="bg-slate-50 min-h-screen pt-20 selection:bg-indigo-500 selection:text-white">
       
-      {/* 1. HERO SECTION */}
+      {/* HERO SECTION */}
       <div className="bg-slate-900 pt-24 pb-32 rounded-b-[4rem] relative overflow-hidden mb-20 shadow-2xl">
          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-indigo-900/40 via-transparent to-transparent"></div>
          
@@ -60,7 +60,7 @@ export default function About() {
          </div>
       </div>
 
-      {/* 2. MISSION SECTION */}
+      {/* MISSION SECTION */}
       <div className="max-w-7xl mx-auto px-6 mb-32 -mt-10 relative z-20">
         <div className="grid md:grid-cols-2 gap-16 items-center">
             
@@ -112,7 +112,7 @@ export default function About() {
         </div>
       </div>
 
-      {/* 3. TIMELINE: FIXED SPACING & COLOR ANIMATION */}
+      {/* TIMELINE: FIXED SPACING & COLOR ANIMATION */}
       <div className="max-w-4xl mx-auto px-6 mb-32">
         <div className="text-center mb-20">
           <h2 className="text-4xl font-black text-slate-900 tracking-tight">Our Journey</h2>
@@ -138,16 +138,16 @@ export default function About() {
                 
                 <div className="hidden md:block w-1/2"></div>
                 
-                {/* Content - ΑΥΞΗΣΑΜΕ ΤΟ PADDING (pl-24 αντί για pl-16) */}
+                {/* Content*/}
                 <div className={`w-full md:w-1/2 group ${index % 2 === 0 ? 'pr-0 pl-16 md:pr-24 md:pl-0 text-left md:text-right' : 'pl-16 md:pl-24 text-left'}`}>
                   <div>
-                    {/* Animated Year Color: Purple on entry -> Slate -> Purple on Hover */}
+                    {/* Animated Year Color */}
                     <motion.span 
-                        initial={{ color: '#4f46e5' }} // Ξεκινάει Μοβ (Indigo-600)
-                        whileInView={{ color: '#e2e8f0' }} // Γίνεται Γκρι (Slate-200) αφού κάτσει
-                        viewport={{ once: true }} // Το κάνει μόνο μια φορά στην αρχή
-                        transition={{ delay: 1, duration: 1 }} // Περιμένει 1 δευτερόλεπτο πριν γίνει γκρι
-                        className="text-5xl font-black mb-2 block tracking-tighter cursor-default transition-colors duration-300 hover:text-indigo-600" // Hover class για το ποντίκι
+                        initial={{ color: '#4f46e5' }} 
+                        whileInView={{ color: '#e2e8f0' }} 
+                        viewport={{ once: true }} 
+                        transition={{ delay: 1, duration: 1 }} 
+                        className="text-5xl font-black mb-2 block tracking-tighter cursor-default transition-colors duration-300 hover:text-indigo-600" // Hover class 
                     >
                         {item.year}
                     </motion.span>
@@ -163,7 +163,7 @@ export default function About() {
         </div>
       </div>
 
-      {/* 4. STATS */}
+      {/* STATS */}
       <div className="bg-white border-t border-slate-100">
         <div className="max-w-7xl mx-auto px-6 py-24">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-12 md:gap-0 divide-y md:divide-y-0 md:divide-x divide-slate-100">

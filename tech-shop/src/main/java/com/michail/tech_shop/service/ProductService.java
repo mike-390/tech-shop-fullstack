@@ -20,7 +20,10 @@ public class ProductService {
     }
 
     public List<Product> getAllProducts() {
-        return productRepository.findAll();
+
+        return productRepository.findAll().stream()
+                .filter(p -> !p.isDeleted())
+                .toList();
     }
 
     public Product createProduct(ProductRequest request) {
@@ -39,6 +42,44 @@ public class ProductService {
                 request.getImageUrl(),
                 category
         );
+
+        return productRepository.save(product);
+    }
+
+    public Product getProductById(Long id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        if (product.isDeleted()) {
+            throw new RuntimeException("Product not found (deleted)");
+        }
+
+        return product;
+    }
+
+    public void deleteProduct(Long id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        product.setDeleted(true);
+        productRepository.save(product);
+    }
+
+    public Product updateProduct(Long id, ProductRequest request) {
+
+        Product product = getProductById(id);
+        product.setName(request.getName());
+        product.setDescription(request.getDescription());
+        product.setPrice(request.getPrice());
+        product.setStock(request.getStock());
+        product.setImageUrl(request.getImageUrl());
+
+        Category category = categoryRepository.findByName(request.getCategoryName());
+        if (category == null) {
+            category = new Category(request.getCategoryName(), "Auto-created");
+            category = categoryRepository.save(category);
+        }
+        product.setCategory(category);
 
         return productRepository.save(product);
     }

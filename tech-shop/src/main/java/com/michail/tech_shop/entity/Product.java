@@ -54,6 +54,8 @@ public class Product {
             )
     )
     private Category category;
+    @Column(name = "is_deleted")
+    private boolean deleted = false;
 
     public Product(String name, String description, BigDecimal price, Integer stock, String imageUrl, Category category ) {
         this.name = name;
@@ -123,4 +125,8 @@ public class Product {
     public void setCategory(Category category) {
         this.category = category;
     }
+
+    public boolean isDeleted() {return deleted;}
+
+    public void setDeleted(boolean deleted) {this.deleted = deleted;}
 }

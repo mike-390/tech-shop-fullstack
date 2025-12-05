@@ -35,7 +35,7 @@ export default function Navbar() {
 
                     <div className="flex items-center gap-4">
                         
-                        {/* --- THE ADMIN BUTTON --- */}
+                        {/*ADMIN BUTTON*/}
                         {isAdmin && (
                             <Link 
                                 to="/admin/add-product" 
@@ -45,7 +45,6 @@ export default function Navbar() {
                                 <PlusSquare className="h-5 w-5" />
                             </Link>
                         )}
-                        {/* --------------------------- */}
 
                         <Link to="/cart" className="relative p-3 hover:bg-gray-100 rounded-full transition-colors group">
                             <ShoppingCart className="h-5 w-5 text-gray-700 group-hover:text-blue-600 transition-colors" />

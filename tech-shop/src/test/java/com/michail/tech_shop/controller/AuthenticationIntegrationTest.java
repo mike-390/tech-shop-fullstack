@@ -38,7 +38,7 @@ class AuthenticationIntegrationTest {
     @BeforeEach
     void setUp() {
         
-        refreshTokenRepository.deleteAll(); /
+        refreshTokenRepository.deleteAll();
         orderRepository.deleteAll();        
         userRepository.deleteAll();        
     }

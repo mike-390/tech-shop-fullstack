@@ -9,6 +9,10 @@ import Register from './pages/Register';
 import { Toaster } from 'react-hot-toast';
 import About from './pages/About';
 import AddProduct from './pages/admin/AddProduct';
+import ProductDetails from './pages/ProductDetails';
+import MyOrders from './pages/MyOrders';
+import AdminOrders from './pages/admin/AdminOrders';
+import EditProduct from './pages/admin/EditProduct';
 
 function App() {
   return (
@@ -19,13 +23,22 @@ function App() {
 
       <div className="flex-grow"> 
         <Routes>
+          {/* Public Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/product/:id" element={<ProductDetails />} /> 
           <Route path="/about" element={<About />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          
+          {/* Customer Routes */}
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/my-orders" element={<MyOrders />} /> 
+
+          {/* Admin Routes */}
           <Route path="/admin/add-product" element={<AddProduct />} />
+          <Route path="/admin/orders" element={<AdminOrders />} />
+          <Route path="/admin/product/edit/:id" element={<EditProduct />} />
         </Routes>
       </div>
 
