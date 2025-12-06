@@ -137,7 +137,7 @@ export default function Home() {
              <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
                  <div className="relative animate-float-van">
                      <img 
-                         src="../../public/—Pngtree—white delivery van icon haulage_14171922.png" 
+                         src="/van.png"
                          alt="Delivery Van" 
                          className="w-[500px] h-auto drop-shadow-2xl transform -rotate-2"
                      />
